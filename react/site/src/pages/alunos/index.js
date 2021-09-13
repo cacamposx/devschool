@@ -10,10 +10,14 @@ import Menu from '../../components/menu'
 import { Container, Conteudo } from './styled'
 import { useState, useEffect, useRef } from 'react';
 
+import LoadingBar from 'react-top-loading-bar'
+
 import Api from '../../service/api';
 const api = new Api();
 
 export default function Index() {
+
+    const loading = useRef(null);
 
     const [alunos, setAlunos] = useState([]);
     const [nome, setNome] = useState('');
@@ -28,15 +32,25 @@ export default function Index() {
     }
 
     async function inserir() {
-        if (idAlterando == 0) {
-        let r = await api.inserir(nome, chamada, curso, turma);
-        if (r.erro) alert(r.erro);
-        else alert('Aluno inserido!');
-        } else {
-            let r = await api.alterar(idAlterando, nome, chamada, curso, turma);
-            if (r.erro) alert(r.erro);
-            else alert('Aluno alterado!');
-        }
+        loading.current.continuousStart();
+
+        if(chamada > 0) {
+            if (idAlterando == 0) {
+                let r = await api.inserir(nome, chamada, curso, turma);
+                if (r.erro) 
+                    toast.dark(r.erro);
+                else 
+                    toast.dark('Aluno inserido!');
+            } else {
+                let r = await api.alterar(idAlterando, nome, chamada, curso, turma);
+                if (r.erro) 
+                    toast.dark(r.erro);
+                else 
+                    toast.dark('Aluno alterado!');
+            }
+        } else (
+            toast.dark('Chamada negativa')
+        );
 
         limparCampos();
         listar();
@@ -62,7 +76,7 @@ export default function Index() {
                         if (r.erro)
                             toast.error(`${r.error}`);
                         else {
-                            toast.dark('💕 Aluno removido');
+                            toast.dark('Aluno removido');
                             listar();
                         }
                     }
@@ -88,6 +102,8 @@ export default function Index() {
 
     return (
         <Container>
+        <ToastContainer />
+        <LoadingBar color="purple" ref={loading} />
             <Menu />
             <Conteudo>
                 <Cabecalho />

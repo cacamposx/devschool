@@ -34,6 +34,7 @@ export default function Index() {
     async function inserir() {
         loading.current.continuousStart();
 
+        
         if(chamada > 0) {
             if (idAlterando == 0) {
                 let r = await api.inserir(nome, chamada, curso, turma);

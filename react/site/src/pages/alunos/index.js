@@ -36,7 +36,7 @@ export default function Index() {
 
         
         if(chamada > 0) {
-            if (idAlterando == 0) {
+            if (idAlterando === 0) {
                 let r = await api.inserir(nome, chamada, curso, turma);
                 if (r.erro) 
                     toast.dark(r.erro);
@@ -113,7 +113,7 @@ export default function Index() {
                         
                         <div className="text-new-student">
                             <div className="bar-new-student"></div>
-                            <div className="text-new-student"> {idAlterando == 0 ? "Novo Aluno" : "Alterando Aluno " + idAlterando } </div>
+                            <div className="text-new-student"> {idAlterando === 0 ? "Novo Aluno" : "Alterando Aluno " + idAlterando } </div>
                         </div>
 
                         <div className="input-new-student"> 
@@ -138,7 +138,7 @@ export default function Index() {
                                     <div className="input"> <input type="text" value={turma} onChange={e => setTurma(e.target.value)} /> </div> 
                                 </div>
                             </div>
-                            <div className="button-create"> <button onClick={inserir}> {idAlterando == 0 ? "Cadastrar" : "Alterar"} </button> </div>
+                            <div className="button-create"> <button onClick={inserir}> {idAlterando === 0 ? "Cadastrar" : "Alterar"} </button> </div>
                         </div>
                     </div>
 
@@ -164,7 +164,7 @@ export default function Index() {
                             <tbody>
 
                                 {alunos.map((item, i) => 
-                                    <tr className={i % 2 == 0 ? "linha-alternada" : ""}>
+                                    <tr className={i % 2 === 0 ? "linha-alternada" : ""}>
                                         <td> {item.id_matricula} </td>
                                         <td title={item.nm_aluno}> 
                                             {item.nm_aluno != null && item.nm_aluno.length >= 25 
